@@ -31,6 +31,13 @@ class Island:
 
 class Island:
     
+    __slots__ = [ 
+        'number', 'discovered_by', 'name', 'lower_left', 'top_right',
+        'x_dim', 'y_dim', 'top_left', 'lower_right', 'left', 'right',
+        'top', 'bottom'
+        ]
+
+
     def __init__(self, **kwargs:dict) -> None:
 
         self.number = kwargs.get('number', 0)

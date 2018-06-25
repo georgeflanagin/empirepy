@@ -28,6 +28,9 @@ import hashlib
 import json
 import time
 
+import gkflib
+from   gkflib import objectify
+
 class GlobalData:
 
     ticks_per_day = 100
@@ -35,10 +38,10 @@ class GlobalData:
 
     island_sep = 5
     num_islands = 200
-    x_size = 1000
-    y_size = 1000
-    half_x = x_size / 2
-    half_y = y_size / 2
+    x_dim = 1000
+    y_dim = 1000
+    half_x = x_dim / 2
+    half_y = y_dim / 2
 
     max_players = 100
     max_island_dim = 40
@@ -65,8 +68,8 @@ class GlobalData:
         "+":"Carrier"
         }
 
-    @classmethod
-    def set_globals(**kwargs:dict) -> None:
+    def attach_globals(key:str, **kwargs:dict) -> None:
+        
         pass
 
     def __init__(self) -> None:

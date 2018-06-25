@@ -20,4 +20,33 @@ __license__ =       'MIT'
 import typing
 from   typing import *
 
+import globaldata
 
+g = globaldata.GlobalData()
+
+class Ship:
+    pass
+
+
+class Ship:
+
+    TYPES = [
+        'pt', 'barge', 'ferry', 'minesweeper', 'destroyer',
+        'freighter', 'liner', 'submarine', 'tanker', 'supertanker',
+        'transport', 'cruiser', 'battleship', 'carrier'
+        ]
+
+
+    def __init__(self, **kwargs:dict) -> None:
+        """
+        Build a ship of a given type for a player.
+        """
+        self.ship_type = kwargs.get('ship_type')
+        self.location = kwargs.get('location')
+        self.owner = kwargs.get('owner')
+        self.civilians = kwargs.get('civilians', 0)
+        self.military = kwargs.get('military', 0)
+        self.fuel = kwargs.get('ore', 0)
+        
+
+    

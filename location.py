@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-    Exploit the built in complex type for locations
+    Exploit the built in complex type for map locations
+    in a rectilinear toroidial geometry.
 """
 
 
@@ -20,6 +21,8 @@ __license__ =       'MIT'
 import typing
 from   typing import *
 
+import math
+import random
 import os
 import sys
 
@@ -36,31 +39,46 @@ class Location:
         """
         Wrap a complex number.
         """
-        p = complex(x,y)
+        self.p = complex(x,y)
 
 
     @property
     def x(self) -> float:
-        return p.real
+        return self.p.real
 
     
     @property
     def y(self) -> float:
-        return p.imag
+        return self.p.imag
 
 
-    def __minus__(self, other:Location) -> float:
+    def __str__(self):
+        return "({}, {})".format(self.x, self.y)
+
+
+    def __sub__(self, other:Location) -> Tuple[float, float]:
         """
         Compute the Cartesian distance between two locations.
-        Take into account the seams in the world. 
+        Take into account the seams in the world.
+
+        returns -- (dist, heading)
         """
 
         try:
+            v_x = other.x
+            v_y = other.y
+            
             x_dist = abs(self.x - other.x)
-            if x_dist > half_x: x_dist = abs(other.x - self.x)
+            if x_dist > g.half_x: 
+                x_dist = g.x_dim - x_dist
+                v_x = other.x - g.x_dim
+
             y_dist = abs(self.y - other.y)
-            if y_dist > half_y: y_dist = abs(other.y - self.y)
-            return abs(complex(x_dist, y_dist))
+            if y_dist > g.half_y: 
+                y_dist = g.y_dim - y_dist
+                v_y = other.y - g.y_dim
+
+            return abs(complex(x_dist, y_dist)), math.atan2(v_y, v_x)
 
         except Exception as e:
             try:
@@ -68,4 +86,14 @@ class Location:
             except Exception as e:
                 return NotImplemented
 
+
+if __name__ == "__main__":
+    here = Location(111,900)
+    locations = range(0,1000)
+    for _ in range(0,10):
+        there = Location(random.choice(locations), random.choice(locations))
+        d, h = here-there
+        print("From {} to {} is {} in direction {}".format(here, there, d, h))
+else:
+    pass
 
